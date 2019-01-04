@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'airwallex'
+version '1.0-release'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+application {
+    mainClassName = "com.ruojunm.rpn.Main"
+}
+
+
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'RPN Calculator By Ruojunm',
+                'Implementation-Version': version,
+                'Main-Class': 'com.ruojunm.rpn.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+dependencies {
+    // For common java command line application, e.g. help message, command line options and etc
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+    // logging libraries
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.1'
+    compile group: 'com.lmax', name: 'disruptor', version: '3.3.4'   //for asynchronous log for log4j2
+
+    // code generation -- similar to javassist and cglib
+    compile group: 'net.bytebuddy', name: 'byte-buddy-dep', version: '1.9.6'
+
+    // Use TestNG framework, also requires calling test.useTestNG() below
+    testImplementation 'org.testng:testng:6.14.3'
+}
+
+
+
+test {
+    // Use TestNG for unit tests
+    useTestNG()
+}
