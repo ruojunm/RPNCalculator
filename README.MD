@@ -10,7 +10,7 @@
 ```bash
 git clone 
 gradle build fatJar
-
+```
 
 # How to run
 ```
