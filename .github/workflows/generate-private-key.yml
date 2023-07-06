@@ -1,0 +1,38 @@
+name: Generate Ethereum Private Key
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  generate-private-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      
+      - name: Generate private key
+        run: |
+          const ethers = require('ethers');
+
+          // Generate a random private key
+          const privateKey = ethers.Wallet.createRandom().privateKey;
+
+          // Create a wallet instance from the private key
+          const wallet = new ethers.Wallet(privateKey);
+
+          // Print the private key and account address
+          console.log(`Random Ethereum private key: ${privateKey}`);
+          console.log(`Account address: ${wallet.address}`);
+
+          // Set environment variables for the private key and account address
+          console.log(`::set-env name=PRIVATE_KEY::${privateKey}`);
+          console.log(`::set-env name=ACCOUNT_ADDRESS::${wallet.address}`);
+          
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
