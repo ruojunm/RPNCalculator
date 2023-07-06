@@ -2,7 +2,7 @@ name: Generate Ethereum Private Key
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   generate-private-key:
