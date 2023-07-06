@@ -2,7 +2,7 @@ name: Generate Ethereum Private Key
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   generate-private-key:
@@ -15,8 +15,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      
+
+      - name: Install dependencies
+        run: npm install ethers
+
       - name: Generate private key
         run: node .github/generate-private-key.js
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        id: generate-private-key
+          
+      - name: Print private key and account address
+        run: |
+          echo "Private key: ${{ steps.generate-private-key.outputs.private_key }}"
+          echo "Account address: ${{ steps.generate-private-key.outputs.account_address }}"
