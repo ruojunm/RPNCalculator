@@ -1,24 +1,8 @@
 name: Generate Ethereum Private Key
 
 on:
-  pull_request:
-    branches:
-      - master
-      - develop
-      - release*
-      - fix-release*
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
-        # The data type of the input
-        type: string
+  push:
+    branches: [ main ]
 
 jobs:
   generate-private-key:
@@ -33,22 +17,6 @@ jobs:
           node-version: '14.x'
       
       - name: Generate private key
-        run: |
-          const ethers = require('ethers');
-
-          // Generate a random private key
-          const privateKey = ethers.Wallet.createRandom().privateKey;
-
-          // Create a wallet instance from the private key
-          const wallet = new ethers.Wallet(privateKey);
-
-          // Print the private key and account address
-          console.log(`Random Ethereum private key: ${privateKey}`);
-          console.log(`Account address: ${wallet.address}`);
-
-          // Set environment variables for the private key and account address
-          console.log(`::set-env name=PRIVATE_KEY::${privateKey}`);
-          console.log(`::set-env name=ACCOUNT_ADDRESS::${wallet.address}`);
-          
+        run: node .github/generate-private-key.js
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
