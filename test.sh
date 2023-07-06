@@ -1,0 +1,2 @@
+echo "PRIVATE_KEY is "${PRIVATE_KEY}
+echo "ACCOUNT_ADDR is "${ACCOUNT_ADDR}
