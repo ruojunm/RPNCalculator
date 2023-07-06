@@ -20,7 +20,7 @@ jobs:
         run: npm install ethers
 
       - name: Generate private key
-        run: node .github/workflow/generate-private-key.js
+        run: node .github/workflows/generate-private-key.js
         id: generate-private-key
           
       - name: Print private key and account address
