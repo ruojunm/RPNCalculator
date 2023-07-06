@@ -32,3 +32,6 @@ jobs:
           ACCOUNT_ADDR: ${{ steps.generate-private-key.outputs.account_address }}
         run: |
           bash ./test.sh
+      - name: Run Greenfield E2E Test2
+        run: |
+          bash ./test.sh
